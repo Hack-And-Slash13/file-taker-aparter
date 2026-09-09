@@ -5,21 +5,22 @@ from typing import Literal, Tuple
 
 # chars to use to name the file segments
 CHARSET = (
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t". "u", "v", "w", "x", "y", "z",
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T". "U", "V", "W", "X", "Y", "Z"
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
 )
 
 def _ciel_div(a: int, b: int) -> int:
-    return math.ciel(a / b)
+    return math.ceil(a / b)
 
-def _get_segment_name(count: int, length: int) -> Literal:
+def _get_segment_name(number: int, length: int) -> Literal:
     base = len(CHARSET)
     
     # Convert to zero-based index.
-    number -= 1 result = [charset[0]] * length
+    number -= 1
+    result = [CHARSET[0]] * length
     
     for i in range(length - 1, -1, -1):
-        result[i] = charset[number % base]
+        result[i] = CHARSET[number % base]
         number //= base
         
     return "".join(result)
@@ -38,7 +39,7 @@ def resolve_dest_dir(source_file: Path) -> Path:
             print("Operation aborted by user.")
             sys.exit(0)
             
-    dest_dir.mkdir(exists_ok=True)
+    dest_dir.mkdir(exist_ok=True)
     
     return dest_dir
 
@@ -46,7 +47,7 @@ def take_apart(source_file: Path, dest_dir: Path, chunk_size: int) -> int:
     print("Chopping up the file...")
     
     chunk = b"1" #NameErrors suck
-    idx = 0
+    idx = 1
 
     total_files = _ciel_div(source_file.stat().st_size, chunk_size)
     name_length = _ciel_div(total_files, len(CHARSET))
@@ -77,4 +78,4 @@ if __name__ == "__main__":
     
     filename, chunk_size = user_input()
     dest_dir = resolve_dest_dir(filename)
-    sys.exit(take_apart())
+    sys.exit(take_apart(filename, dest_dir, chunk_size))
