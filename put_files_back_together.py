@@ -1,12 +1,12 @@
 from pathlib import Path
 
 def user_input():
-    retun input("What's the name of the folder all the files are in? (Yes, they all have to be in one folder. Yes, I know you want to throw your computer out the window) ")
+    return input("What's the name of the folder all the files are in? (Yes, they all have to be in one folder. Yes, I know you want to throw your computer out the window) ")
 
 def resolve_filename(segments_dir: Path) -> Path:
     segments_dir = segments_dir.resolve()
-    filename = segment_dir.parts[-1].replace(" - chopped up", "")
-    return segment_dir.parent / filename
+    filename = segments_dir.parts[-1].replace(" - chopped up", "")
+    return segments_dir.parent / filename
     
 def take_back_together(segments_dir: Path, path: Path) -> int:
     print("Putting the files back together...")
@@ -31,5 +31,5 @@ if __name__ == "__main__":
     )
     
     segments_dir = Path(user_input())
-    original_file = resolve_filename(segment_dir)
+    original_file = resolve_filename(segments_dir)
     sys.exit(take_back_together(segments_dir, original_file))
