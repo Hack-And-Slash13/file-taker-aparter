@@ -13,9 +13,9 @@ def take_back_together(segments_dir: Path, path: Path) -> int:
     
     segments = sorted(tuple(segments_dir.glob("*")))
     
-    with open(path, "wb") as new_file:
+    with path.open("ab") as new_file:
         for segment in segments:
-            new_file.write(segment.read_bytes())
+            new_file.write_bytes(segment.read_bytes())
     
     print("Done!")
     
